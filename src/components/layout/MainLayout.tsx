@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { RequestEditor } from "../../features/request-builder/RequestEditor";
 import { ResponsePanel } from "../../features/response-viewer/ResponsePanel";
+import { HttpResponse } from "../../services/tauri/http.service";
 
 export const MainLayout: React.FC = () => {
+  const [response, setResponse] = useState<HttpResponse | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleResponse = (resp: HttpResponse) => {
+    setResponse(resp);
+    setIsLoading(false);
+  };
+
   return (
     <div className="app-shell">
       <Sidebar />
@@ -12,10 +21,10 @@ export const MainLayout: React.FC = () => {
         <Header />
         <div className="content-area">
           <div className="panel panel-bordered">
-            <RequestEditor />
+            <RequestEditor onResponse={handleResponse} />
           </div>
           <div className="panel">
-            <ResponsePanel />
+            <ResponsePanel response={response} isLoading={isLoading} />
           </div>
         </div>
       </div>

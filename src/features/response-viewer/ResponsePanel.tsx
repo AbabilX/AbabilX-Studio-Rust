@@ -1,22 +1,31 @@
 import React, { useState } from "react";
-import { FileText, Cookie, Send } from "lucide-react";
+import { FileText, Cookie, Send, Loader } from "lucide-react";
 import { StatusBar } from "./StatusBar";
+import { HttpResponse } from "../../services/tauri/http.service";
 
 type ResponseTab = "body" | "headers" | "cookies";
 
-export const ResponsePanel: React.FC = () => {
+interface Props {
+  response: HttpResponse | null;
+  isLoading?: boolean;
+}
+
+export const ResponsePanel: React.FC<Props> = ({ response, isLoading }) => {
   const [activeTab, setActiveTab] = useState<ResponseTab>("body");
-  const [response] = useState<{
-    status: number;
-    statusText: string;
-    headers: Record<string, string>;
-    data: unknown;
-  } | null>(null);
+
+  const formatBody = (body: string) => {
+    try {
+      const parsed = JSON.parse(body);
+      return JSON.stringify(parsed, null, 2);
+    } catch {
+      return body;
+    }
+  };
 
   return (
     <div className="flex flex-col" style={{ height: "100%" }}>
       {/* Status Bar */}
-      <StatusBar />
+      <StatusBar response={response} />
 
       {/* Tabs */}
       <div className="response-tabs">
@@ -42,24 +51,32 @@ export const ResponsePanel: React.FC = () => {
 
       {/* Response Content */}
       <div className="response-content">
-        {!response ? (
+        {isLoading ? (
+          <div className="response-loading">
+            <div className="spinner" />
+          </div>
+        ) : !response ? (
           <div className="response-empty">
             <Send size={48} className="response-empty-icon" />
             <p className="response-empty-text">
               Send a request to see the response
             </p>
           </div>
+        ) : response.error ? (
+          <div className="response-empty">
+            <p className="response-empty-text text-destructive">
+              {response.error}
+            </p>
+          </div>
         ) : (
           <div>
             {activeTab === "body" && (
-              <pre className="response-body">
-                {JSON.stringify(response.data, null, 2)}
-              </pre>
+              <pre className="response-body">{formatBody(response.body)}</pre>
             )}
             {activeTab === "headers" && (
               <div className="headers-table">
-                {Object.entries(response.headers).map(([key, value]) => (
-                  <div key={key} className="headers-row">
+                {response.headers.map(([key, value], index) => (
+                  <div key={index} className="headers-row">
                     <span className="headers-key">{key}</span>
                     <span className="headers-value">{value}</span>
                   </div>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { PlusCircle, Trash2 } from "lucide-react";
 
 interface Header {
@@ -8,20 +8,21 @@ interface Header {
   enabled: boolean;
 }
 
-export const HeadersTab: React.FC = () => {
-  const [headers, setHeaders] = useState<Header[]>([
-    { id: "1", key: "", value: "", enabled: true },
-  ]);
+interface Props {
+  headers: Header[];
+  onHeadersChange: (headers: Header[]) => void;
+}
 
+export const HeadersTab: React.FC<Props> = ({ headers, onHeadersChange }) => {
   const addHeader = () => {
-    setHeaders([
+    onHeadersChange([
       ...headers,
       { id: Date.now().toString(), key: "", value: "", enabled: true },
     ]);
   };
 
   const removeHeader = (id: string) => {
-    setHeaders(headers.filter((h) => h.id !== id));
+    onHeadersChange(headers.filter((h) => h.id !== id));
   };
 
   const updateHeader = (
@@ -29,7 +30,7 @@ export const HeadersTab: React.FC = () => {
     field: keyof Header,
     value: string | boolean
   ) => {
-    setHeaders(
+    onHeadersChange(
       headers.map((h) => (h.id === id ? { ...h, [field]: value } : h))
     );
   };

@@ -1,54 +1,36 @@
-import React, { useState } from "react";
+import React from "react";
 import { FileText } from "lucide-react";
 
-type BodyType = "none" | "raw" | "form-data" | "x-www-form-urlencoded";
+type BodyType = "none" | "raw";
 
-export const BodyTab: React.FC = () => {
-  const [bodyType, setBodyType] = useState<BodyType>("raw");
-  const [rawBody, setRawBody] = useState("");
-  const [contentType, setContentType] = useState("application/json");
+interface Props {
+  bodyType: BodyType;
+  rawBody: string;
+  onBodyTypeChange: (type: BodyType) => void;
+  onRawBodyChange: (body: string) => void;
+}
 
+export const BodyTab: React.FC<Props> = ({
+  bodyType,
+  rawBody,
+  onBodyTypeChange,
+  onRawBodyChange,
+}) => {
   return (
     <div>
       <div className="section-header">
         <div className="body-type-selector">
           <button
             className={`body-type-btn ${bodyType === "none" ? "active" : ""}`}
-            onClick={() => setBodyType("none")}>
+            onClick={() => onBodyTypeChange("none")}>
             None
           </button>
           <button
             className={`body-type-btn ${bodyType === "raw" ? "active" : ""}`}
-            onClick={() => setBodyType("raw")}>
+            onClick={() => onBodyTypeChange("raw")}>
             Raw
           </button>
-          <button
-            className={`body-type-btn ${
-              bodyType === "form-data" ? "active" : ""
-            }`}
-            onClick={() => setBodyType("form-data")}>
-            Form Data
-          </button>
-          <button
-            className={`body-type-btn ${
-              bodyType === "x-www-form-urlencoded" ? "active" : ""
-            }`}
-            onClick={() => setBodyType("x-www-form-urlencoded")}>
-            URL Encoded
-          </button>
         </div>
-        {bodyType === "raw" && (
-          <select
-            value={contentType}
-            onChange={(e) => setContentType(e.target.value)}
-            className="select select-sm"
-            style={{ width: "auto", minWidth: "120px" }}>
-            <option value="application/json">JSON</option>
-            <option value="text/plain">Text</option>
-            <option value="application/xml">XML</option>
-            <option value="text/html">HTML</option>
-          </select>
-        )}
       </div>
 
       {bodyType === "none" && (
@@ -61,17 +43,11 @@ export const BodyTab: React.FC = () => {
       {bodyType === "raw" && (
         <textarea
           value={rawBody}
-          onChange={(e) => setRawBody(e.target.value)}
-          placeholder={`Enter ${contentType} body...`}
+          onChange={(e) => onRawBodyChange(e.target.value)}
+          placeholder="Enter request body..."
           className="code-editor"
           style={{ minHeight: "200px" }}
         />
-      )}
-
-      {(bodyType === "form-data" || bodyType === "x-www-form-urlencoded") && (
-        <div className="text-secondary text-subheadline">
-          <p>Form data editor will be implemented here</p>
-        </div>
       )}
     </div>
   );

@@ -1,26 +1,35 @@
 import React from "react";
 import { Clock, Copy, Save } from "lucide-react";
+import { HttpResponse } from "../../services/tauri/http.service";
 
-export const StatusBar: React.FC = () => {
-  const status = null; // Will come from response
-  const responseTime = null;
+interface Props {
+  response: HttpResponse | null;
+}
 
-  const getStatusClass = (status?: number): string => {
-    if (!status) return "";
-    if (status >= 200 && status < 300) return "success";
-    if (status >= 300 && status < 400) return "redirect";
-    if (status >= 400 && status < 500) return "client-error";
-    if (status >= 500) return "server-error";
+export const StatusBar: React.FC<Props> = ({ response }) => {
+  const getStatusClass = (statusCode?: number): string => {
+    if (!statusCode) return "";
+    if (statusCode >= 200 && statusCode < 300) return "success";
+    if (statusCode >= 300 && statusCode < 400) return "redirect";
+    if (statusCode >= 400 && statusCode < 500) return "client-error";
+    if (statusCode >= 500) return "server-error";
     return "";
+  };
+
+  const copyResponse = () => {
+    if (response?.body) {
+      navigator.clipboard.writeText(response.body);
+    }
   };
 
   return (
     <div className="status-bar">
       <div className="status-indicator">
         <span className="text-caption1">Status:</span>
-        {status ? (
-          <span className={`status-code ${getStatusClass(status)}`}>
-            {status}
+        {response?.statusCode ? (
+          <span
+            className={`status-code ${getStatusClass(response.statusCode)}`}>
+            {response.statusCode}
           </span>
         ) : (
           <span className="text-tertiary">—</span>
@@ -28,15 +37,20 @@ export const StatusBar: React.FC = () => {
       </div>
 
       <div className="response-meta">
-        {responseTime && (
+        {response?.durationMs !== undefined && response.durationMs > 0 && (
           <>
             <Clock size={14} className="text-tertiary" />
             <span className="response-meta-item">
-              <span className="response-meta-value">{responseTime}</span>ms
+              <span className="response-meta-value">{response.durationMs}</span>
+              ms
             </span>
           </>
         )}
-        <button className="btn btn-icon btn-sm" title="Copy response">
+        <button
+          className="btn btn-icon btn-sm"
+          title="Copy response"
+          onClick={copyResponse}
+          disabled={!response?.body}>
           <Copy size={14} />
         </button>
         <button className="btn btn-icon btn-sm" title="Save response">
