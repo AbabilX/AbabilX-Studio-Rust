@@ -3,41 +3,17 @@ import { Settings, Globe } from "lucide-react";
 
 export const Header: React.FC = () => {
   return (
-    <header style={{
-      height: "var(--header-height)",
-      borderBottom: "1px solid var(--border-color)",
-      background: "var(--bg-primary)",
-      display: "flex",
-      alignItems: "center",
-      justifyContent: "space-between",
-      padding: "0 20px",
-      boxShadow: "var(--shadow-sm)"
-    }}>
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "12px"
-      }}>
-        <h1 style={{
-          fontSize: "18px",
-          fontWeight: "600",
-          color: "var(--text-primary)",
-          margin: 0
-        }}>
-          Ababil Studio
-        </h1>
+    <header className="header">
+      <div className="header-left">
+        <h1 className="header-title">Ababil Studio</h1>
       </div>
-      
-      <div style={{
-        display: "flex",
-        alignItems: "center",
-        gap: "8px"
-      }}>
-        <button className="btn btn-icon" title="Settings">
-          <Settings size={20} />
-        </button>
+
+      <div className="header-right">
         <button className="btn btn-icon" title="Environment">
-          <Globe size={20} />
+          <Globe size={18} />
+        </button>
+        <button className="btn btn-icon" title="Settings">
+          <Settings size={18} />
         </button>
       </div>
     </header>

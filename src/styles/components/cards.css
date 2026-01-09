@@ -1,0 +1,122 @@
+/*
+ * macOS-Style Cards
+ * Grouped content containers following Apple HIG
+ */
+
+.card {
+    background-color: var(--color-bg-grouped-secondary);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+/* Card with padding */
+.card-padded {
+    padding: var(--space-4);
+}
+
+/* Card with header */
+.card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-separator);
+}
+
+.card-header-title {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-label);
+}
+
+.card-body {
+    padding: var(--space-4);
+}
+
+.card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    border-top: 1px solid var(--color-separator);
+}
+
+/* Inset grouped card - macOS Settings style */
+.card-inset {
+    background-color: var(--color-bg-tertiary);
+    margin: var(--space-4);
+}
+
+/* Card list - for grouped items */
+.card-list {
+    display: flex;
+    flex-direction: column;
+}
+
+.card-list-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: 1px solid var(--color-separator);
+    transition: background-color var(--transition-fast);
+}
+
+.card-list-item:last-child {
+    border-bottom: none;
+}
+
+.card-list-item:active {
+    background-color: var(--color-fill-tertiary);
+}
+
+.card-list-item-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-list-item-title {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-regular);
+    color: var(--color-label);
+}
+
+.card-list-item-subtitle {
+    font-size: var(--text-xs);
+    color: var(--color-secondary-label);
+    margin-top: 2px;
+}
+
+.card-list-item-accessory {
+    flex-shrink: 0;
+    color: var(--color-tertiary-label);
+}
+
+/* Empty state card */
+.card-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-10) var(--space-6);
+    text-align: center;
+}
+
+.card-empty-icon {
+    color: var(--color-tertiary-label);
+    margin-bottom: var(--space-4);
+    opacity: 0.5;
+}
+
+.card-empty-title {
+    font-size: var(--text-base);
+    font-weight: var(--weight-medium);
+    color: var(--color-secondary-label);
+    margin-bottom: var(--space-1);
+}
+
+.card-empty-description {
+    font-size: var(--text-sm);
+    color: var(--color-tertiary-label);
+}

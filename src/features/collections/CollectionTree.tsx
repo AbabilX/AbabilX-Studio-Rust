@@ -1,15 +1,17 @@
 import React, { useState } from "react";
-import { Folder, FolderOpen, FileText, ChevronDown, ChevronRight } from "lucide-react";
+import { Folder, FolderOpen, FileText, ChevronRight } from "lucide-react";
 
 interface CollectionItem {
   id: string;
   name: string;
   type: "collection" | "folder" | "request";
+  method?: string;
   children?: CollectionItem[];
 }
 
 export const CollectionTree: React.FC = () => {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
+  const [selected, setSelected] = useState<string | null>(null);
   const [items] = useState<CollectionItem[]>([
     {
       id: "1",
@@ -21,12 +23,12 @@ export const CollectionTree: React.FC = () => {
           name: "API Endpoints",
           type: "folder",
           children: [
-            { id: "3", name: "Get Users", type: "request" },
-            { id: "4", name: "Create User", type: "request" }
-          ]
-        }
-      ]
-    }
+            { id: "3", name: "Get Users", type: "request", method: "GET" },
+            { id: "4", name: "Create User", type: "request", method: "POST" },
+          ],
+        },
+      ],
+    },
   ]);
 
   const toggleExpand = (id: string) => {
@@ -39,12 +41,12 @@ export const CollectionTree: React.FC = () => {
     setExpanded(newExpanded);
   };
 
-  const getIcon = (type: string) => {
-    switch (type) {
+  const getIcon = (item: CollectionItem, isExpanded: boolean) => {
+    switch (item.type) {
       case "collection":
-        return Folder;
+        return isExpanded ? FolderOpen : Folder;
       case "folder":
-        return FolderOpen;
+        return isExpanded ? FolderOpen : Folder;
       case "request":
         return FileText;
       default:
@@ -55,50 +57,46 @@ export const CollectionTree: React.FC = () => {
   const renderItem = (item: CollectionItem, level: number = 0) => {
     const hasChildren = item.children && item.children.length > 0;
     const isExpanded = expanded.has(item.id);
+    const isSelected = selected === item.id;
+    const Icon = getIcon(item, isExpanded);
 
     return (
-      <div key={item.id}>
+      <div key={item.id} className="collection-group">
         <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: "6px",
-            padding: "6px 8px",
-            paddingLeft: `${8 + level * 16}px`,
-            borderRadius: "var(--radius-sm)",
-            cursor: "pointer",
-            transition: "background 0.2s",
-            color: "var(--text-primary)"
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.background = "var(--bg-secondary)";
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.background = "transparent";
-          }}
-          onClick={() => hasChildren && toggleExpand(item.id)}
-        >
-          {hasChildren && (
-            <>
-              {isExpanded ? (
-                <ChevronDown size={14} style={{ color: "var(--text-secondary)" }} />
-              ) : (
-                <ChevronRight size={14} style={{ color: "var(--text-secondary)" }} />
-              )}
-            </>
-          )}
-          {!hasChildren && <div style={{ width: "14px" }} />}
-          {React.createElement(getIcon(item.type), {
-            size: 16,
-            style: { color: "var(--text-secondary)" }
-          })}
-          <span style={{
-            fontSize: "13px",
-            flex: 1
+          className={`tree-item ${isExpanded ? "expanded" : ""} ${
+            isSelected ? "selected" : ""
+          }`}
+          data-level={level}
+          onClick={() => {
+            if (hasChildren) {
+              toggleExpand(item.id);
+            }
+            setSelected(item.id);
           }}>
-            {item.name}
-          </span>
+          {hasChildren ? (
+            <ChevronRight size={14} className="tree-item-chevron" />
+          ) : (
+            <div className="tree-item-chevron-placeholder" />
+          )}
+
+          <Icon
+            size={16}
+            className={`tree-item-icon ${
+              item.type === "folder" || item.type === "collection"
+                ? "folder"
+                : ""
+            }`}
+          />
+
+          <span className="tree-item-label">{item.name}</span>
+
+          {item.method && (
+            <span className={`tree-item-method ${item.method.toLowerCase()}`}>
+              {item.method}
+            </span>
+          )}
         </div>
+
         {hasChildren && isExpanded && (
           <div>
             {item.children!.map((child) => renderItem(child, level + 1))}
@@ -109,23 +107,17 @@ export const CollectionTree: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="collection-tree">
       {items.length === 0 ? (
-        <div style={{
-          padding: "40px 20px",
-          textAlign: "center",
-          color: "var(--text-secondary)"
-        }}>
-          <Folder size={48} style={{ opacity: 0.3, marginBottom: "12px" }} />
-          <p style={{ fontSize: "13px", margin: 0 }}>No collections yet</p>
-          <p style={{ fontSize: "12px", margin: "4px 0 0 0", opacity: 0.7 }}>
+        <div className="collection-empty">
+          <Folder size={40} className="collection-empty-icon" />
+          <p className="collection-empty-title">No collections yet</p>
+          <p className="collection-empty-description">
             Create a new collection to get started
           </p>
         </div>
       ) : (
-        <div>
-          {items.map((item) => renderItem(item))}
-        </div>
+        <div>{items.map((item) => renderItem(item))}</div>
       )}
     </div>
   );

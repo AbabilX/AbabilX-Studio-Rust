@@ -10,18 +10,25 @@ interface Header {
 
 export const HeadersTab: React.FC = () => {
   const [headers, setHeaders] = useState<Header[]>([
-    { id: "1", key: "", value: "", enabled: true }
+    { id: "1", key: "", value: "", enabled: true },
   ]);
 
   const addHeader = () => {
-    setHeaders([...headers, { id: Date.now().toString(), key: "", value: "", enabled: true }]);
+    setHeaders([
+      ...headers,
+      { id: Date.now().toString(), key: "", value: "", enabled: true },
+    ]);
   };
 
   const removeHeader = (id: string) => {
     setHeaders(headers.filter((h) => h.id !== id));
   };
 
-  const updateHeader = (id: string, field: keyof Header, value: string | boolean) => {
+  const updateHeader = (
+    id: string,
+    field: keyof Header,
+    value: string | boolean
+  ) => {
     setHeaders(
       headers.map((h) => (h.id === id ? { ...h, [field]: value } : h))
     );
@@ -29,72 +36,43 @@ export const HeadersTab: React.FC = () => {
 
   return (
     <div>
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: "12px"
-      }}>
-        <h3 style={{
-          fontSize: "14px",
-          fontWeight: "600",
-          color: "var(--text-primary)",
-          margin: 0
-        }}>
-          Request Headers
-        </h3>
+      <div className="section-header">
+        <h3 className="section-title">Request Headers</h3>
         <button className="btn btn-sm" onClick={addHeader}>
-          <PlusCircle size={16} />
+          <PlusCircle size={14} />
           Add Header
         </button>
       </div>
 
-      <div style={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "8px"
-      }}>
+      <div className="kv-editor">
         {headers.map((header) => (
-          <div
-            key={header.id}
-            style={{
-              display: "flex",
-              gap: "8px",
-              alignItems: "center"
-            }}
-          >
+          <div key={header.id} className="kv-row">
             <input
               type="checkbox"
               checked={header.enabled}
-              onChange={(e) => updateHeader(header.id, "enabled", e.target.checked)}
-              style={{
-                cursor: "pointer"
-              }}
+              onChange={(e) =>
+                updateHeader(header.id, "enabled", e.target.checked)
+              }
+              className="kv-checkbox"
             />
             <input
               type="text"
               value={header.key}
               onChange={(e) => updateHeader(header.id, "key", e.target.value)}
               placeholder="Header name"
-              className="input input-sm"
-              style={{ flex: 1 }}
+              className="kv-input"
             />
             <input
               type="text"
               value={header.value}
               onChange={(e) => updateHeader(header.id, "value", e.target.value)}
               placeholder="Header value"
-              className="input input-sm"
-              style={{ flex: 1 }}
+              className="kv-input"
             />
             <button
-              className="btn btn-icon btn-sm"
-              onClick={() => removeHeader(header.id)}
-              style={{
-                color: "var(--danger)"
-              }}
-            >
-              <Trash2 size={16} />
+              className="kv-delete"
+              onClick={() => removeHeader(header.id)}>
+              <Trash2 size={14} />
             </button>
           </div>
         ))}

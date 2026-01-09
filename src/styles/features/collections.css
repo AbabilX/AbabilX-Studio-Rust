@@ -1,0 +1,207 @@
+/*
+ * Collections Tree Styles
+ * macOS Finder sidebar-inspired collection browser
+ */
+
+/* Collection Tree Container */
+.collection-tree {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Collection Group */
+.collection-group {
+    margin-bottom: var(--space-2);
+}
+
+/* Tree Item */
+.tree-item {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    user-select: none;
+    transition: background-color var(--transition-fast);
+}
+
+.tree-item:active {
+    background-color: var(--color-fill-tertiary);
+}
+
+.tree-item.selected {
+    background-color: var(--color-accent);
+    color: #ffffff;
+}
+
+.tree-item.selected .tree-item-icon,
+.tree-item.selected .tree-item-chevron {
+    color: #ffffff;
+}
+
+/* Nesting Indentation */
+.tree-item[data-level="1"] {
+    padding-left: calc(var(--space-3) + 16px);
+}
+
+.tree-item[data-level="2"] {
+    padding-left: calc(var(--space-3) + 32px);
+}
+
+.tree-item[data-level="3"] {
+    padding-left: calc(var(--space-3) + 48px);
+}
+
+.tree-item[data-level="4"] {
+    padding-left: calc(var(--space-3) + 64px);
+}
+
+/* Chevron */
+.tree-item-chevron {
+    flex-shrink: 0;
+    width: 14px;
+    color: var(--color-tertiary-label);
+    transition: transform var(--transition-fast);
+}
+
+.tree-item.expanded .tree-item-chevron {
+    transform: rotate(90deg);
+}
+
+.tree-item-chevron-placeholder {
+    width: 14px;
+    flex-shrink: 0;
+}
+
+/* Icon */
+.tree-item-icon {
+    flex-shrink: 0;
+    color: var(--color-secondary-label);
+}
+
+.tree-item-icon.folder {
+    color: var(--color-blue);
+}
+
+.tree-item-icon.collection {
+    color: var(--color-orange);
+}
+
+/* Label */
+.tree-item-label {
+    flex: 1;
+    font-size: var(--text-sm);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* Method Badge */
+.tree-item-method {
+    flex-shrink: 0;
+    font-size: 9px;
+    font-weight: var(--weight-bold);
+    padding: 1px 4px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+}
+
+.tree-item-method.get {
+    background-color: rgba(52, 199, 89, 0.15);
+    color: var(--color-green);
+}
+
+.tree-item-method.post {
+    background-color: rgba(255, 149, 0, 0.15);
+    color: var(--color-orange);
+}
+
+.tree-item-method.put {
+    background-color: rgba(0, 122, 255, 0.15);
+    color: var(--color-blue);
+}
+
+.tree-item-method.patch {
+    background-color: rgba(175, 82, 222, 0.15);
+    color: var(--color-purple);
+}
+
+.tree-item-method.delete {
+    background-color: rgba(255, 59, 48, 0.15);
+    color: var(--color-red);
+}
+
+.tree-item.selected .tree-item-method {
+    background-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+}
+
+/* Tree Actions (on hover) */
+.tree-item-actions {
+    display: flex;
+    gap: var(--space-1);
+    opacity: 0;
+    transition: opacity var(--transition-fast);
+}
+
+.tree-item:hover .tree-item-actions,
+.tree-item.selected .tree-item-actions {
+    opacity: 1;
+}
+
+.tree-action-btn {
+    padding: var(--space-1);
+    color: var(--color-tertiary-label);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+}
+
+.tree-action-btn:active {
+    background-color: var(--color-fill-tertiary);
+}
+
+.tree-item.selected .tree-action-btn {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+/* Empty State */
+.collection-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: var(--space-10) var(--space-4);
+    text-align: center;
+}
+
+.collection-empty-icon {
+    color: var(--color-tertiary-label);
+    margin-bottom: var(--space-3);
+    opacity: 0.4;
+}
+
+.collection-empty-title {
+    font-size: var(--text-sm);
+    color: var(--color-secondary-label);
+    margin-bottom: var(--space-1);
+}
+
+.collection-empty-description {
+    font-size: var(--text-xs);
+    color: var(--color-tertiary-label);
+}
+
+/* Drag and Drop States */
+.tree-item.drag-over {
+    background-color: var(--color-fill-secondary);
+    outline: 2px dashed var(--color-accent);
+    outline-offset: -2px;
+}
+
+.tree-item.dragging {
+    opacity: 0.5;
+}

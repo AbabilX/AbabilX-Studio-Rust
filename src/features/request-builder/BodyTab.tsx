@@ -10,48 +10,39 @@ export const BodyTab: React.FC = () => {
 
   return (
     <div>
-      <div style={{
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-        marginBottom: "12px"
-      }}>
-        <div style={{
-          display: "flex",
-          gap: "8px"
-        }}>
+      <div className="section-header">
+        <div className="body-type-selector">
           <button
-            className={`btn btn-sm ${bodyType === "none" ? "btn-primary" : ""}`}
-            onClick={() => setBodyType("none")}
-          >
+            className={`body-type-btn ${bodyType === "none" ? "active" : ""}`}
+            onClick={() => setBodyType("none")}>
             None
           </button>
           <button
-            className={`btn btn-sm ${bodyType === "raw" ? "btn-primary" : ""}`}
-            onClick={() => setBodyType("raw")}
-          >
+            className={`body-type-btn ${bodyType === "raw" ? "active" : ""}`}
+            onClick={() => setBodyType("raw")}>
             Raw
           </button>
           <button
-            className={`btn btn-sm ${bodyType === "form-data" ? "btn-primary" : ""}`}
-            onClick={() => setBodyType("form-data")}
-          >
+            className={`body-type-btn ${
+              bodyType === "form-data" ? "active" : ""
+            }`}
+            onClick={() => setBodyType("form-data")}>
             Form Data
           </button>
           <button
-            className={`btn btn-sm ${bodyType === "x-www-form-urlencoded" ? "btn-primary" : ""}`}
-            onClick={() => setBodyType("x-www-form-urlencoded")}
-          >
-            x-www-form-urlencoded
+            className={`body-type-btn ${
+              bodyType === "x-www-form-urlencoded" ? "active" : ""
+            }`}
+            onClick={() => setBodyType("x-www-form-urlencoded")}>
+            URL Encoded
           </button>
         </div>
         {bodyType === "raw" && (
           <select
             value={contentType}
             onChange={(e) => setContentType(e.target.value)}
-            className="input input-sm"
-            style={{ width: "auto", minWidth: "150px" }}
-          >
+            className="select select-sm"
+            style={{ width: "auto", minWidth: "120px" }}>
             <option value="application/json">JSON</option>
             <option value="text/plain">Text</option>
             <option value="application/xml">XML</option>
@@ -61,13 +52,9 @@ export const BodyTab: React.FC = () => {
       </div>
 
       {bodyType === "none" && (
-        <div style={{
-          padding: "40px",
-          textAlign: "center",
-          color: "var(--text-secondary)"
-        }}>
-          <FileText size={48} style={{ opacity: 0.3, marginBottom: "12px" }} />
-          <p>No body data</p>
+        <div className="card-empty">
+          <FileText size={40} className="card-empty-icon" />
+          <p className="card-empty-title">No body data</p>
         </div>
       )}
 
@@ -76,23 +63,13 @@ export const BodyTab: React.FC = () => {
           value={rawBody}
           onChange={(e) => setRawBody(e.target.value)}
           placeholder={`Enter ${contentType} body...`}
-          style={{
-            width: "100%",
-            minHeight: "300px",
-            padding: "12px",
-            border: "1px solid var(--border-color)",
-            borderRadius: "var(--radius)",
-            fontFamily: "monospace",
-            fontSize: "13px",
-            background: "var(--bg-secondary)",
-            color: "var(--text-primary)",
-            resize: "vertical"
-          }}
+          className="code-editor"
+          style={{ minHeight: "200px" }}
         />
       )}
 
       {(bodyType === "form-data" || bodyType === "x-www-form-urlencoded") && (
-        <div style={{ color: "var(--text-secondary)" }}>
+        <div className="text-secondary text-subheadline">
           <p>Form data editor will be implemented here</p>
         </div>
       )}

@@ -1,0 +1,266 @@
+/*
+ * Request Editor Styles
+ * API request builder UI with macOS aesthetics
+ */
+
+/* URL Bar Container */
+.url-bar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-4);
+    background-color: var(--color-bg-secondary);
+    border-bottom: 1px solid var(--color-separator);
+}
+
+/* Method Selector */
+.method-select {
+    min-width: 100px;
+    padding: var(--space-2) var(--space-3);
+    padding-right: var(--space-8);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-separator-opaque);
+    border-radius: var(--radius-sm);
+    color: var(--color-label);
+    appearance: none;
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%233c3c43' fill-opacity='0.6' d='M6 8.5L1.5 4h9L6 8.5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.method-select:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+
+/* Method Colors */
+.method-select.get {
+    color: var(--color-green);
+}
+
+.method-select.post {
+    color: var(--color-orange);
+}
+
+.method-select.put {
+    color: var(--color-blue);
+}
+
+.method-select.patch {
+    color: var(--color-purple);
+}
+
+.method-select.delete {
+    color: var(--color-red);
+}
+
+/* URL Input */
+.url-input {
+    flex: 1;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+    font-family: var(--font-mono);
+    background-color: var(--color-bg-primary);
+    border: 1px solid var(--color-separator-opaque);
+    border-radius: var(--radius-sm);
+    color: var(--color-label);
+}
+
+.url-input::placeholder {
+    font-family: var(--font-system);
+    color: var(--color-placeholder);
+}
+
+.url-input:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+
+/* Send Button */
+.send-btn {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-2) var(--space-4);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    background-color: var(--color-accent);
+    color: #ffffff;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    transition: background-color var(--transition-fast);
+}
+
+.send-btn:active {
+    background-color: var(--color-accent-hover);
+}
+
+.send-btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Request Tabs */
+.request-tabs {
+    display: flex;
+    gap: 0;
+    padding: 0 var(--space-4);
+    background-color: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-separator);
+}
+
+.request-tab {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: var(--space-3) var(--space-4);
+    font-size: var(--text-sm);
+    color: var(--color-secondary-label);
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.request-tab:active {
+    color: var(--color-label);
+}
+
+.request-tab.active {
+    color: var(--color-accent);
+    border-bottom-color: var(--color-accent);
+    font-weight: var(--weight-medium);
+}
+
+/* Request Content */
+.request-content {
+    flex: 1;
+    overflow: auto;
+    padding: var(--space-4);
+    background-color: var(--color-bg-primary);
+}
+
+/* Key-Value Editor */
+.kv-editor {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.kv-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.kv-checkbox {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--color-accent);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.kv-input {
+    flex: 1;
+    padding: var(--space-2) var(--space-3);
+    font-size: var(--text-sm);
+    background-color: var(--color-fill-tertiary);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    color: var(--color-label);
+}
+
+.kv-input:focus {
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent);
+}
+
+.kv-delete {
+    padding: var(--space-2);
+    color: var(--color-tertiary-label);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.kv-delete:active {
+    color: var(--color-red);
+    background-color: var(--color-fill-tertiary);
+}
+
+/* Section Header */
+.section-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+}
+
+.section-title {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-label);
+}
+
+/* Body Type Selector */
+.body-type-selector {
+    display: flex;
+    gap: 2px;
+    padding: 2px;
+    background-color: var(--color-fill-tertiary);
+    border-radius: var(--radius-sm);
+}
+
+.body-type-btn {
+    padding: var(--space-1) var(--space-3);
+    font-size: var(--text-xs);
+    font-weight: var(--weight-medium);
+    color: var(--color-secondary-label);
+    background: transparent;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.body-type-btn.active {
+    color: var(--color-label);
+    background-color: var(--color-bg-primary);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
+}
+
+/* Code Editor Area */
+.code-editor {
+    width: 100%;
+    min-height: 200px;
+    padding: var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.5;
+    color: var(--color-label);
+    background-color: var(--color-bg-secondary);
+    border: 1px solid var(--color-separator-opaque);
+    border-radius: var(--radius-sm);
+    resize: vertical;
+}
+
+.code-editor:focus {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2);
+}
+
+/* Dark mode method select arrow */
+@media (prefers-color-scheme: dark) {
+    .method-select {
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23ebebf5' fill-opacity='0.6' d='M6 8.5L1.5 4h9L6 8.5z'/%3E%3C/svg%3E");
+    }
+}

@@ -1,0 +1,128 @@
+/*
+ * macOS-Style Header
+ * Native toolbar/navigation bar styles
+ */
+
+.header {
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-4);
+    background-color: var(--color-bg-primary);
+    border-bottom: 1px solid var(--color-separator);
+    -webkit-app-region: drag;
+    /* Allow window dragging on Tauri */
+}
+
+/* Header Left Section */
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    -webkit-app-region: no-drag;
+}
+
+/* Header Title */
+.header-title {
+    font-size: var(--text-base);
+    font-weight: var(--weight-semibold);
+    color: var(--color-label);
+}
+
+.header-subtitle {
+    font-size: var(--text-sm);
+    color: var(--color-secondary-label);
+    margin-left: var(--space-2);
+}
+
+/* Header Center Section */
+.header-center {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    -webkit-app-region: no-drag;
+}
+
+/* Header Right Section */
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    -webkit-app-region: no-drag;
+}
+
+/* Header Actions */
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+/* Header Divider */
+.header-divider {
+    width: 1px;
+    height: 20px;
+    background-color: var(--color-separator);
+    margin: 0 var(--space-2);
+}
+
+/* Toolbar Style Header */
+.header-toolbar {
+    height: 40px;
+    background-color: var(--color-bg-secondary);
+    padding: 0 var(--space-3);
+}
+
+/* Header with search */
+.header-search {
+    position: relative;
+    max-width: 240px;
+}
+
+.header-search .input {
+    padding-left: var(--space-8);
+    background-color: var(--color-fill-tertiary);
+    border-color: transparent;
+}
+
+.header-search .input:focus {
+    background-color: var(--color-bg-primary);
+    border-color: var(--color-accent);
+}
+
+.header-search-icon {
+    position: absolute;
+    left: var(--space-3);
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--color-tertiary-label);
+    pointer-events: none;
+}
+
+/* Breadcrumb in header */
+.header-breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-secondary-label);
+}
+
+.header-breadcrumb-separator {
+    color: var(--color-tertiary-label);
+}
+
+.header-breadcrumb-item {
+    color: var(--color-secondary-label);
+    cursor: pointer;
+}
+
+.header-breadcrumb-item:last-child {
+    color: var(--color-label);
+    font-weight: var(--weight-medium);
+}
+
+.header-breadcrumb-item:active {
+    color: var(--color-accent);
+}

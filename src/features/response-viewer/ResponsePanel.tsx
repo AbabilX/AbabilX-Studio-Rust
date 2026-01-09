@@ -14,93 +14,60 @@ export const ResponsePanel: React.FC = () => {
   } | null>(null);
 
   return (
-    <div style={{
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      background: "var(--bg-primary)"
-    }}>
+    <div className="flex flex-col" style={{ height: "100%" }}>
       {/* Status Bar */}
       <StatusBar />
 
       {/* Tabs */}
-      <div className="tabs" style={{ padding: "0 16px" }}>
+      <div className="response-tabs">
         <button
-          className={`tab ${activeTab === "body" ? "active" : ""}`}
-          onClick={() => setActiveTab("body")}
-        >
-          <FileText size={16} style={{ marginRight: "6px" }} />
+          className={`response-tab ${activeTab === "body" ? "active" : ""}`}
+          onClick={() => setActiveTab("body")}>
+          <FileText size={14} />
           Body
         </button>
         <button
-          className={`tab ${activeTab === "headers" ? "active" : ""}`}
-          onClick={() => setActiveTab("headers")}
-        >
-          <FileText size={16} style={{ marginRight: "6px" }} />
+          className={`response-tab ${activeTab === "headers" ? "active" : ""}`}
+          onClick={() => setActiveTab("headers")}>
+          <FileText size={14} />
           Headers
         </button>
         <button
-          className={`tab ${activeTab === "cookies" ? "active" : ""}`}
-          onClick={() => setActiveTab("cookies")}
-        >
-          <Cookie size={16} style={{ marginRight: "6px" }} />
+          className={`response-tab ${activeTab === "cookies" ? "active" : ""}`}
+          onClick={() => setActiveTab("cookies")}>
+          <Cookie size={14} />
           Cookies
         </button>
       </div>
 
       {/* Response Content */}
-      <div style={{
-        flex: 1,
-        overflow: "auto",
-        padding: "16px",
-        background: "var(--bg-secondary)"
-      }}>
+      <div className="response-content">
         {!response ? (
-          <div style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            height: "100%",
-            color: "var(--text-secondary)"
-          }}>
-            <Send size={64} style={{ opacity: 0.3, marginBottom: "16px" }} />
-            <p style={{ fontSize: "14px" }}>Send a request to see the response</p>
+          <div className="response-empty">
+            <Send size={48} className="response-empty-icon" />
+            <p className="response-empty-text">
+              Send a request to see the response
+            </p>
           </div>
         ) : (
           <div>
             {activeTab === "body" && (
-              <pre style={{
-                background: "var(--bg-primary)",
-                padding: "16px",
-                borderRadius: "var(--radius)",
-                border: "1px solid var(--border-color)",
-                fontSize: "13px",
-                fontFamily: "monospace",
-                overflow: "auto",
-                whiteSpace: "pre-wrap",
-                wordBreak: "break-word"
-              }}>
+              <pre className="response-body">
                 {JSON.stringify(response.data, null, 2)}
               </pre>
             )}
             {activeTab === "headers" && (
-              <div className="card">
+              <div className="headers-table">
                 {Object.entries(response.headers).map(([key, value]) => (
-                  <div key={key} style={{
-                    padding: "8px 0",
-                    borderBottom: "1px solid var(--border-color)",
-                    display: "flex",
-                    justifyContent: "space-between"
-                  }}>
-                    <span style={{ fontWeight: "600", color: "var(--text-primary)" }}>{key}:</span>
-                    <span style={{ color: "var(--text-secondary)" }}>{value}</span>
+                  <div key={key} className="headers-row">
+                    <span className="headers-key">{key}</span>
+                    <span className="headers-value">{value}</span>
                   </div>
                 ))}
               </div>
             )}
             {activeTab === "cookies" && (
-              <div style={{ color: "var(--text-secondary)" }}>
+              <div className="text-secondary text-subheadline">
                 <p>Cookies will be displayed here</p>
               </div>
             )}

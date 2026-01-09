@@ -3,121 +3,98 @@ import { Send, Link, FileText, Code, Lock } from "lucide-react";
 import { HeadersTab } from "./HeadersTab";
 import { BodyTab } from "./BodyTab";
 
-const HTTP_METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE", "HEAD", "OPTIONS"];
+const HTTP_METHODS = [
+  "GET",
+  "POST",
+  "PUT",
+  "PATCH",
+  "DELETE",
+  "HEAD",
+  "OPTIONS",
+];
 
 export const RequestEditor: React.FC = () => {
   const [method, setMethod] = useState("GET");
   const [url, setUrl] = useState("");
-  const [activeTab, setActiveTab] = useState<"params" | "headers" | "body" | "auth">("headers");
+  const [activeTab, setActiveTab] = useState<
+    "params" | "headers" | "body" | "auth"
+  >("headers");
+
+  const getMethodClass = () => {
+    return `method-select ${method.toLowerCase()}`;
+  };
 
   return (
-    <div style={{
-      display: "flex",
-      flexDirection: "column",
-      height: "100%",
-      background: "var(--bg-primary)"
-    }}>
+    <div className="flex flex-col" style={{ height: "100%" }}>
       {/* Request URL Bar */}
-      <div style={{
-        padding: "16px",
-        borderBottom: "1px solid var(--border-color)",
-        background: "var(--bg-secondary)"
-      }}>
-        <div style={{
-          display: "flex",
-          gap: "8px",
-          alignItems: "center"
-        }}>
-          {/* Method Selector */}
-          <select
-            value={method}
-            onChange={(e) => setMethod(e.target.value)}
-            style={{
-              padding: "8px 12px",
-              border: "1px solid var(--border-color)",
-              borderRadius: "var(--radius)",
-              background: "var(--bg-primary)",
-              color: "var(--text-primary)",
-              fontSize: "14px",
-              fontWeight: "600",
-              cursor: "pointer",
-              minWidth: "100px"
-            }}
-          >
-            {HTTP_METHODS.map((m) => (
-              <option key={m} value={m}>
-                {m}
-              </option>
-            ))}
-          </select>
+      <div className="url-bar">
+        {/* Method Selector */}
+        <select
+          value={method}
+          onChange={(e) => setMethod(e.target.value)}
+          className={getMethodClass()}>
+          {HTTP_METHODS.map((m) => (
+            <option key={m} value={m}>
+              {m}
+            </option>
+          ))}
+        </select>
 
-          {/* URL Input */}
-          <input
-            type="text"
-            value={url}
-            onChange={(e) => setUrl(e.target.value)}
-            placeholder="Enter request URL"
-            className="input"
-            style={{
-              flex: 1
-            }}
-          />
+        {/* URL Input */}
+        <input
+          type="text"
+          value={url}
+          onChange={(e) => setUrl(e.target.value)}
+          placeholder="Enter request URL"
+          className="url-input"
+        />
 
-          {/* Send Button */}
-          <button className="btn btn-primary">
-            <Send size={18} />
-            Send
-          </button>
-        </div>
+        {/* Send Button */}
+        <button className="send-btn">
+          <Send size={16} />
+          Send
+        </button>
       </div>
 
       {/* Tabs */}
-      <div className="tabs" style={{ padding: "0 16px" }}>
+      <div className="request-tabs">
         <button
-          className={`tab ${activeTab === "params" ? "active" : ""}`}
-          onClick={() => setActiveTab("params")}
-        >
-          <Link size={16} style={{ marginRight: "6px" }} />
+          className={`request-tab ${activeTab === "params" ? "active" : ""}`}
+          onClick={() => setActiveTab("params")}>
+          <Link size={14} />
           Params
         </button>
         <button
-          className={`tab ${activeTab === "headers" ? "active" : ""}`}
-          onClick={() => setActiveTab("headers")}
-        >
-          <FileText size={16} style={{ marginRight: "6px" }} />
+          className={`request-tab ${activeTab === "headers" ? "active" : ""}`}
+          onClick={() => setActiveTab("headers")}>
+          <FileText size={14} />
           Headers
         </button>
         <button
-          className={`tab ${activeTab === "body" ? "active" : ""}`}
-          onClick={() => setActiveTab("body")}
-        >
-          <Code size={16} style={{ marginRight: "6px" }} />
+          className={`request-tab ${activeTab === "body" ? "active" : ""}`}
+          onClick={() => setActiveTab("body")}>
+          <Code size={14} />
           Body
         </button>
         <button
-          className={`tab ${activeTab === "auth" ? "active" : ""}`}
-          onClick={() => setActiveTab("auth")}
-        >
-          <Lock size={16} style={{ marginRight: "6px" }} />
+          className={`request-tab ${activeTab === "auth" ? "active" : ""}`}
+          onClick={() => setActiveTab("auth")}>
+          <Lock size={14} />
           Auth
         </button>
       </div>
 
       {/* Tab Content */}
-      <div style={{
-        flex: 1,
-        overflow: "auto",
-        padding: "16px"
-      }}>
+      <div className="request-content">
         {activeTab === "params" && (
-          <div style={{ color: "var(--text-secondary)" }}>
+          <div className="text-secondary text-subheadline">
             <p>Query parameters will be added here</p>
           </div>
         )}
         {activeTab === "headers" && <HeadersTab />}
         {activeTab === "body" && <BodyTab />}
         {activeTab === "auth" && (
-          <div style={{ color: "var(--text-secondary)" }}>
+          <div className="text-secondary text-subheadline">
             <p>Authentication settings will be added here</p>
           </div>
         )}
